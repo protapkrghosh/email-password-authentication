@@ -1,0 +1,32 @@
+.register-form {
+    width: 30%;
+    margin: auto;
+}
+
+.register-title {
+    margin-bottom: 0;
+}
+
+form .input-field {
+    width: 75%;
+    margin: 8px 8px 8px 0;
+    padding: 10px;
+    font-size: medium;
+    border-radius: 5px;
+    border: 1px solid lightseagreen;
+}
+
+form .btn-submit {
+    font-size: medium;
+    padding: 8px 10%;
+    margin-top: 8px;
+    border-radius: 5px;
+    border: 1px solid lightseagreen;
+    cursor: pointer;
+    transition: .5s;
+}
+
+form .btn-submit:hover {
+    border: 1px solid rgb(28, 160, 153);
+    background-color: #59ccc6;
+}
