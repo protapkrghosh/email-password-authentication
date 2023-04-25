@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Register.css";
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from "firebase/auth"
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile } from "firebase/auth"
 import app from "../../firebase/firebase.config";
 import { Link } from "react-router-dom";
 
@@ -16,9 +16,10 @@ const Register = () => {
         setSuccess('');
         setError('');
         // 2. collect form data
+        const name = event.target.name.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
-        console.log(email, password);
+        console.log(name, email, password);
 
         // Validate
         if (!/(?=.*[A-Z].*[A-Z])/.test(password)) {
@@ -43,6 +44,7 @@ const Register = () => {
                 event.target.reset();
                 setSuccess("Register Successful");
                 sendVerificationEmail(result.user);
+                updateUserData(result.user, name);
             })
             .catch(error => {
                 console.error(error.message);
@@ -57,7 +59,19 @@ const Register = () => {
                 console.log(result);
                 alert('Please verify your email address');
             })
-            
+
+    }
+
+    const updateUserData = (user, name) => {
+        updateProfile(user, {
+            displayName: name
+        })
+            .then(() => {
+                console.log('user name updated');
+            })
+            .catch(error => {
+                setError(error.message);
+            })
     }
 
     const handleEmailChange = (event) => {
@@ -74,12 +88,21 @@ const Register = () => {
             <h2 className="register-title">Please Register</h2>
             <form onSubmit={handleSubmit}>
                 <input
+                    className="input-field"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="User Name"
+                    required
+                />{" "}
+                <br />
+                <input
                     onChange={handleEmailChange}
                     className="input-field"
                     type="email"
                     name="email"
                     id="email"
-                    placeholder="Your Email"
+                    placeholder="Email Address"
                     required
                 />{" "}
                 <br />
@@ -89,7 +112,7 @@ const Register = () => {
                     type="Password"
                     name="password"
                     id="password"
-                    placeholder="Your Password"
+                    placeholder="Password"
                     required
                 />{" "}
                 <br />
